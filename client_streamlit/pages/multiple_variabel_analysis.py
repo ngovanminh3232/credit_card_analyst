@@ -10,7 +10,7 @@ print("Setup Complete")
 # pip install streamlit
 # run file: tại termial, chạy lệnh streamlit run client_streamlit.py
 
-st.title("Project")
+st.title("Phân tích đa biến")
 
 train_df = pd.read_csv('../../train.csv')
 train_df = train_df.head(1000)
@@ -28,12 +28,11 @@ list_age = (train_df["Age"].to_numpy() // -365.25).tolist()
 list_age_unique = np.unique(list_age)
 list_age_unique = list(map(int, list_age_unique))
 
-# plot age and cars
-sum = [get_sum_people_by_item(train_df, "Has a car", i)
-       for i in list_age_unique]
-
 
 def age_and_cars_plot():
+    # plot age and cars
+    sum = [get_sum_people_by_item(train_df, "Has a car", i)
+           for i in list_age_unique]
     fig = plt.figure(figsize=(16, 6))
     plt.title("Độ tuổi sở hữu xe hơi", fontsize=14)
     plt.xlabel("Tuổi", fontsize=14)
@@ -42,14 +41,10 @@ def age_and_cars_plot():
     st.pyplot(fig)
 
 
-# plot age and property
-sum = [get_sum_people_by_item(train_df, "Has a property", i)
-       for i in list_age_unique]
-
-# plot
-
-
 def age_and_property():
+    # plot age and property
+    sum = [get_sum_people_by_item(train_df, "Has a property", i)
+           for i in list_age_unique]
     fig = plt.figure(figsize=(16, 6))
     plt.title("Độ tuổi sở hữu tài sản", fontsize=14)
     plt.xlabel("Tuổi", fontsize=14)
@@ -71,12 +66,11 @@ def get_average_income_by_age(df, age):
     return sum / count
 
 
-sum = [get_average_income_by_age(train_df, i) for i in list_age_unique]
 # plot
 
 
 def age_and_income():
-
+    sum = [get_average_income_by_age(train_df, i) for i in list_age_unique]
     fig = plt.figure(figsize=(16, 6))
     plt.title("Độ tuổi và thu nhập", fontsize=14)
     plt.xlabel("Tuổi", fontsize=14)
@@ -84,37 +78,6 @@ def age_and_income():
     sns.barplot(x=list_age_unique, y=sum)
     st.pyplot(fig)
 
-# job and income
-
-
-# def get_average_income_by_job(df, job):
-#     sum = 0
-#     count = 0
-#     for i in range(len(df)):
-#         if df["Job title"].iloc[i] == job:
-#             sum += df["Income"].iloc[i]
-#             # print(df.loc[i, "Income"])
-#             count += 1
-#     # print(sum)
-#     # # print(count)
-#     return sum / count
-
-
-# job_title = train_df.groupby(["Job title"])["Job title"].size()
-# print(job_title.index)
-# sum = [get_average_income_by_job(train_df, i) for i in job_title.index]
-# # plot
-
-
-# def jobs_and_income():
-#     fig = plt.figure(figsize=(16, 6))
-#     plt.title("Ngành nghề và thu nhập")
-#     plt.xlabel("Ngành nghề")
-#     plt.ylabel("Mức thu nhập trung bình")
-#     chart = sns.barplot(x=job_title.index, y=sum)
-#     chart.set_xticklabels(chart.get_xticklabels(),
-#                           rotation=45, horizontalalignment='right')
-#     st.pyplot(fig)
 
 # Scatter plot
 def scatter_gender_income():
@@ -150,13 +113,13 @@ def scatter_age_marita_income():
 
 
 # income and experience
-new_data = train_df.copy()
-new_data_satisfy = new_data[new_data["Employment length"] != 365243]
-list_employment_length = (
-    new_data_satisfy["Employment length"].to_numpy() // -365.25).tolist()
 
 
 def scatter_income_exp():
+    new_data = train_df.copy()
+    new_data_satisfy = new_data[new_data["Employment length"] != 365243]
+    list_employment_length = (
+        new_data_satisfy["Employment length"].to_numpy() // -365.25).tolist()
     fig = plt.figure(figsize=(10, 6))
     plt.title("Phân bố thu nhập theo số năm làm việc")
     plt.xlabel("Số năm làm việc")
@@ -177,13 +140,11 @@ def scatter_children():
     st.pyplot(fig)
 
 
-# corelation
-new_data = train_df.copy()
-new_data.drop(["Has a mobile phone", "STATUS", "dep_value",
-              "Is high risk"], axis=1, inplace=True)
-
-
 def relation():
+    # corelation
+    new_data = train_df.copy()
+    new_data.drop(["Has a mobile phone", "STATUS", "dep_value",
+                   "Is high risk"], axis=1, inplace=True)
     fig = plt.figure(figsize=(14, 8))
     sns.set_theme(style="white")
     corr = new_data.corr()
@@ -192,13 +153,46 @@ def relation():
 
 
 if __name__ == '__main__':
-    # age_and_cars_plot()
-    # age_and_property()
-    # age_and_income()
-    # jobs_and_income()
-    # scatter_gender_income()
-    # scatter_age_edu_income()
-    # scatter_age_marita_income()
-    # scatter_income_exp()
-    # scatter_children()
+    age_and_cars_plot()
+    st.markdown('#### Nhận xét:')
+    st.markdown('- Độ tuổi sở hữu xe hơi phổ biến từ 27 đến 54 tuổi')
+    st.markdown('- Số tuổi sở hữu nhiều xe hơi nhất là 28 tuổi: với 425 người')
+    st.markdown('- Số tuổi sở hữu ít xe hơi nhất là 21 tuổi: với 3 người')
+    age_and_property()
+    st.markdown('#### Nhận xét:')
+    st.markdown('- Độ tuổi sở hữu xe hơi phổ biến từ 27 đến 60 tuổi')
+    st.markdown('- Số tuổi sở hữu nhiều tài sản nhất là 37 tuổi: với 616 người')
+    st.markdown('- Số tuổi sở hữu ít tài sản nhất là 21 tuổi: với 3 người')
+    age_and_income()
+    st.markdown('#### Nhận xét:')
+    st.markdown('- Thu nhập có xu hướng tăng dần từ 21 tuổi đến giai đoạn 40 tuổi, sau đó duy trì và có xu hướng giảm dần từ sau 50 tuổi')
+    st.markdown(
+        '- Tuổi có thu nhập trung bình cao nhất là 45 tuổi: thu nhập là 214965')
+    st.markdown(
+        '- Tuổi có thu nhập trung bình thấp nhất là 65 tuổi: thu nhập là 128241')
+    # # jobs_and_income()
+    scatter_gender_income()
+    st.markdown('#### Nhận xét')
+    st.markdown(
+        '- Ở hầu hết các độ tuổi, phụ nữ thường có thu nhập thấp hơn nam giới cùng tuổi')
+    st.markdown(
+        '- Từ 21 đến 50 tuổi, số lượng nam giới chiếm đa số, từ giai đoạn 50 đến 70 tuổi, nữ giới chiếm đa số')
+    scatter_age_edu_income()
+    st.markdown('#### Nhận xét')
+    st.markdown('- Trình độ học vấn phổ biến: Secondary và Higher Education')
+    st.markdown(
+        '- Người có Trình độ học vấn Higher education thường có thu nhập cao hơn người có trình độ học vấn Secondary')
+    scatter_age_marita_income()
+    st.markdown('#### Nhận xét')
+    st.markdown('- Tình trạng hôn nhân chiếm đa số :Married')
+    st.markdown('- Độ tuổi trước 30 :Tình trạng hôn nhan phổ biến: Single')
+    st.markdown('- Độ tuổi sau 60: Tình trạng hôn nhân phổ biến: Widow')
+    scatter_income_exp()
+    st.markdown('#### Nhận xét')
+    st.markdown(
+        '- Thu nhập trung bình suy giảm rõ rệt độ tuổi cao từ 30 năm kinh nghiệm')
+    scatter_children()
+    st.markdown('#### Nhận xét')
+    st.markdown(
+        '- Số con trong gia đình phân bố theo một hàm tuyến tính có tham số là số thành viên gia đình')
     relation()
