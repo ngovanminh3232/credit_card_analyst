@@ -23,3 +23,12 @@ Conda environment
 - Multivariate correlation
 - Model deployment
 
+## Data Source
+[Kaggle Credit Card Approval Prediction ](https://www.kaggle.com/datasets/rikdifos/credit-card-approval-prediction)
+
+
+## Tổng quan về kết quả
+
+### Ma trận tương quan
+![The San Juan Mountains are beautiful!](./datasets/correlation_matrix.png "San Juan Mountains")
+
