@@ -10,3 +10,7 @@ ydata-profiling==4.0.0
 spyder==5.1.5
 gensim==4.3.0
 daal4py==2021.4.0
+ydata_profiling
+missingno
+yellowbrick
+scikit_plot
