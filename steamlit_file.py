@@ -19,8 +19,10 @@ from streamlit_lottie import st_lottie_spinner
 
 
 
-train_original = pd.read_csv('./datasets/train.csv')
-test_original = pd.read_csv('./datasets/test.csv')
+train_original = pd.read_csv('https://raw.githubusercontent.com/semasuka/Credit-card-approval-prediction-classification/main/datasets/train.csv')
+
+test_original = pd.read_csv('https://raw.githubusercontent.com/semasuka/Credit-card-approval-prediction-classification/main/datasets/test.csv')
+
 full_data = pd.concat([train_original, test_original], axis=0)
 
 full_data = full_data.sample(frac=1).reset_index(drop=True)
@@ -449,11 +451,11 @@ lottie_loading_an = load_lottieurl('https://assets3.lottiefiles.com/packages/lf2
 
 def make_prediction():
     # connect to s3 bucket
-    # client = boto3.client('s3', aws_access_key_id=st.secrets["access_key"],aws_secret_access_key=st.secrets["secret_access_key"]) # for s3 API keys when deployed on streamlit share
-    client = boto3.client('s3', aws_access_key_id='access_key',aws_secret_access_key='secret_access_key') # for s3 API keys when deployed on locally
+    client = boto3.client('s3', aws_access_key_id=st.secrets["access_key"],aws_secret_access_key=st.secrets["secret_access_key"]) # for s3 API keys when deployed on streamlit share
+    # client = boto3.client('s3', aws_access_key_id='access_key',aws_secret_access_key='secret_access_key') # for s3 API keys when deployed on locally
 
-    bucket_name = "creditapplipred"
-    key = "gradient_boosting_model.sav"
+    bucket_name = "finalexam2023"
+    key = "random_forest_model.sav"
 
     # load the model from s3 in a temporary file
     with tempfile.TemporaryFile() as fp:
@@ -474,4 +476,10 @@ if predict_bt:
         st.balloons()
     elif final_pred[0] == 1:
         st.error('## Unfortunately, you have not been approved for a credit card')
+
+
+
+
+
+
 
