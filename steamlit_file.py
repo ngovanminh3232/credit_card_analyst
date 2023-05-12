@@ -7,7 +7,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler, OrdinalEncoder
 from sklearn.ensemble import GradientBoostingClassifier
 from imblearn.over_sampling import SMOTE
-#from secret import access_key, secret_access_key
+# from secret import access_key, secret_access_key
 import joblib
 import streamlit as st
 import boto3
@@ -19,9 +19,9 @@ from streamlit_lottie import st_lottie_spinner
 
 
 
-train_original = pd.read_csv('https://raw.githubusercontent.com/semasuka/Credit-card-approval-prediction-classification/main/datasets/train.csv')
+train_original = pd.read_csv('https://raw.githubusercontent.com/ngovanminh3232/credit_card_analyst/master/datasets/train.csv')
 
-test_original = pd.read_csv('https://raw.githubusercontent.com/semasuka/Credit-card-approval-prediction-classification/main/datasets/test.csv')
+test_original = pd.read_csv('https://raw.githubusercontent.com/ngovanminh3232/credit_card_analyst/master/datasets/test.csv')
 
 full_data = pd.concat([train_original, test_original], axis=0)
 
@@ -437,16 +437,16 @@ profile_to_pred_prep = train_copy_with_profile_to_pred_prep[train_copy_with_prof
 
 
 
-#Animation function
-@st.experimental_memo
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
+# #Animation function
+# @st.experimental_memo
+# def load_lottieurl(url: str):
+#     r = requests.get(url)
+#     if r.status_code != 200:
+#         return None
+#     return r.json()
 
 
-lottie_loading_an = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_szlepvdh.json')
+# lottie_loading_an = load_lottieurl('https://assets3.lottiefiles.com/packages/lf20_szlepvdh.json')
 
 
 def make_prediction():
@@ -468,8 +468,8 @@ def make_prediction():
 
 if predict_bt:
 
-    with st_lottie_spinner(lottie_loading_an, quality='high', height='200px', width='200px'):
-        final_pred = make_prediction()
+    # with st_lottie_spinner(lottie_loading_an, quality='high', height='200px', width='200px'):
+    final_pred = make_prediction()
     # if final_pred exists, then stop displaying the loading animation
     if final_pred[0] == 0:
         st.success('## You have been approved for a credit card')
