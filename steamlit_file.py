@@ -454,7 +454,7 @@ def make_prediction():
     client = boto3.client('s3', aws_access_key_id=st.secrets["access_key"],aws_secret_access_key=st.secrets["secret_access_key"]) # for s3 API keys when deployed on streamlit share
     # client = boto3.client('s3', aws_access_key_id='access_key',aws_secret_access_key='secret_access_key') # for s3 API keys when deployed on locally
 
-    bucket_name = "hieufinalexam"
+    bucket_name = "hieuhieu2023"
     key = "random_forest_model.sav"
 
     # load the model from s3 in a temporary file
