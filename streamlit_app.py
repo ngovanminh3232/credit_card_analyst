@@ -15,6 +15,7 @@ import tempfile
 import json
 import requests
 from streamlit_lottie import st_lottie_spinner
+import os
 
 
 
@@ -450,24 +451,27 @@ profile_to_pred_prep = train_copy_with_profile_to_pred_prep[train_copy_with_prof
 
 
 def make_prediction():
-    # connect to s3 bucket
-    client = boto3.client('s3', aws_access_key_id=st.secrets["access_key"],aws_secret_access_key=st.secrets["secret_access_key"]) # for s3 API keys when deployed on streamlit share
-    # client = boto3.client('s3', aws_access_key_id='access_key',aws_secret_access_key='secret_access_key') # for s3 API keys when deployed on locally
+    # aws_access_key_id = os.environ.get('access_key')
+    # aws_secret_access_key = os.environ.get('secret_access_key')
+    # # # connect to s3 bucket
+    # # client = boto3.client('s3', aws_access_key_id=st.secrets["access_key"],aws_secret_access_key=st.secrets["secret_access_key"]) # for s3 API keys when deployed on streamlit share
+    # client = boto3.client('s3', aws_access_key_id=aws_access_key_id,aws_secret_access_key=aws_secret_access_key) # for s3 API keys when deployed on locally
 
-    bucket_name = "hieuhieu2023"
-    key = "random_forest_model.sav"
+    # bucket_name = "hieuhieu2023"
+    # key = "logistic_regression_model.sav"
 
-    # load the model from s3 in a temporary file
-    with tempfile.TemporaryFile() as fp:
-        client.download_fileobj(Fileobj=fp, Bucket=bucket_name, Key=key)
-        fp.seek(0)
-        model = joblib.load(fp)
+    # print("Hello")
+    # # # load the model from s3 in a temporary file
+    # with tempfile.TemporaryFile() as fp:
+    #     client.download_fileobj(Fileobj=fp, Bucket=bucket_name, Key=key)
+    #     fp.seek(0)
+    #     model = joblib.load(fp)
+    model = joblib.load("./saved_models/random_forest/random_forest_model.sav")
 
     # prediction from the model on AWS S3
     return model.predict(profile_to_pred_prep)
 
 if predict_bt:
-
     # with st_lottie_spinner(lottie_loading_an, quality='high', height='200px', width='200px'):
     final_pred = make_prediction()
     # if final_pred exists, then stop displaying the loading animation
